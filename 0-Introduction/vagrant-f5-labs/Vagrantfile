@@ -1,0 +1,22 @@
+Vagrant.configure("2") do |config|
+    config.vm.box = "boeboe/F5-BIGIP"
+    config.vm.box_version = "13.1.1.3.0.0.1"
+
+    config.vm.define "bigip01" do |bigip01|
+
+        # BIG-IP cannot mount shares in Virtualbox because Guest-Additions
+        # cannot be installed on it.
+        bigip01.vm.synced_folder ".", "/vagrant", disabled: true
+
+        bigip01.vm.network "private_network", ip: "172.16.1.31", auto_config: false
+
+        bigip01.vm.provider "virtualbox" do |vb|
+            vb.gui = false
+            vb.name = "bigip01"
+            vb.memory = "4096"
+            vb.cpus ="2"
+        end
+
+      end
+
+  end
